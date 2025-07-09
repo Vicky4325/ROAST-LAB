@@ -1,96 +1,161 @@
-# ROAST-LAB
-# Resume Roasting Lab - Full-Stack Application
+# Resume Roaster 🔥
 
-## Overview
+An AI-powered resume feedback application that provides humorous yet constructive criticism to help improve your professional documents. Built with React, Express, PostgreSQL, and Google Gemini AI.
 
-This is a full-stack web application that provides AI-powered resume feedback with a humorous twist. Instead of traditional constructive criticism, the application "roasts" resumes to provide entertaining yet helpful feedback to improve professional documents. The system supports multiple document types (resumes, cover letters, LinkedIn profiles, GitHub READMEs) and offers different levels of feedback intensity.
+## Features
 
-## System Architecture
+- **AI-Powered Feedback**: Get detailed resume analysis with three intensity levels (mild, medium, savage)
+- **Real-time Editing**: Live document editing with auto-save functionality
+- **Section-by-Section Analysis**: Detailed feedback for each resume section
+- **Multiple Document Types**: Support for resumes, cover letters, LinkedIn profiles, and GitHub READMEs
+- **Dark Mode**: Full dark mode support with system preference detection
+- **User Authentication**: Secure session-based authentication
+- **Responsive Design**: Mobile-first responsive layout
 
-### Frontend Architecture
-- **Framework**: React 18 with TypeScript
-- **Routing**: Wouter for client-side routing
-- **UI Components**: Shadcn/ui components with Radix UI primitives
-- **Styling**: Tailwind CSS with custom CSS variables
-- **State Management**: React Context + TanStack Query for server state
-- **Build Tool**: Vite with ESM modules
+## Tech Stack
 
-### Backend Architecture
-- **Runtime**: Node.js 20 with Express.js
-- **Language**: TypeScript with ES modules
-- **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: Session-based (connect-pg-simple for session storage)
-- **AI Integration**: Google Gemini AI (@google/genai) for document analysis
-- **File Processing**: Base64 encoding for document storage
+### Frontend
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **Shadcn/ui** components
+- **Wouter** for routing
+- **TanStack Query** for state management
+- **Vite** for build tooling
 
-### Development Environment
-- **Platform**: Replit with Node.js 20, Web, and PostgreSQL 16 modules
-- **Hot Reload**: Vite development server with HMR
-- **Database Migrations**: Drizzle Kit for schema management
+### Backend
+- **Node.js 20** with Express
+- **TypeScript** with ES modules
+- **PostgreSQL** with Drizzle ORM
+- **Google Gemini AI** for document analysis
+- **Session-based authentication**
 
-## Key Components
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20 or higher
+- PostgreSQL database
+- Google Gemini API key
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/resume-roaster.git
+cd resume-roaster
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables:
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your configuration:
+```
+DATABASE_URL=your_postgresql_connection_string
+GOOGLE_API_KEY=your_google_gemini_api_key
+SESSION_SECRET=your_session_secret_key
+```
+
+4. Set up the database:
+```bash
+npm run db:push
+```
+
+5. Start the development server:
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5000`
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/logout` - Logout user
+- `GET /api/auth/me` - Get current user
+
+### Documents
+- `GET /api/documents` - Get user documents
+- `POST /api/documents` - Create new document
+- `GET /api/documents/:id` - Get specific document
+- `PUT /api/documents/:id` - Update document
+- `DELETE /api/documents/:id` - Delete document
+
+### AI Feedback
+- `POST /api/documents/:id/roast` - Generate AI feedback
+- `GET /api/documents/:id/roasts` - Get feedback history
+
+## Project Structure
+
+```
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── components/     # UI components
+│   │   ├── hooks/          # Custom React hooks
+│   │   ├── lib/            # Utility functions
+│   │   └── pages/          # Page components
+├── server/                 # Express backend
+│   ├── services/           # External service integrations
+│   ├── db.ts              # Database configuration
+│   ├── routes.ts          # API routes
+│   └── storage.ts         # Database operations
+├── shared/                 # Shared types and schemas
+│   └── schema.ts          # Database schema and types
+└── package.json
+```
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run db:push` - Push database schema changes
+- `npm run db:studio` - Open database studio
 
 ### Database Schema
-- **Users Table**: User authentication and profile management
-- **Documents Table**: Stores user documents with metadata and content
-- **Document Sections Table**: Granular section-level content and feedback
-- **Roast Sessions Table**: AI analysis sessions with feedback and scoring
 
-### AI Service Integration
-- **Multi-level Roasting**: Mild, Medium, and Savage feedback modes
-- **Section Analysis**: Individual section scoring and feedback
-- **Document Analysis**: Comprehensive document evaluation
-- **Structured Feedback**: Categorized feedback (success, warning, error, suggestion)
+The application uses four main tables:
+- **users** - User authentication and profiles
+- **documents** - Document storage with metadata
+- **document_sections** - Granular content sections
+- **roast_sessions** - AI feedback results
 
-### Frontend Features
-- **Document Type Selector**: Support for multiple document types
-- **Section Navigator**: Hierarchical document editing interface
-- **Live Preview**: Real-time document rendering
-- **Feedback Panel**: AI-generated feedback display with visual indicators
-- **Auto-save**: Automatic content persistence with status indicators
+## Deployment
 
-## Data Flow
+### Environment Variables
+Ensure these are set in your production environment:
+- `DATABASE_URL` - PostgreSQL connection string
+- `GOOGLE_API_KEY` - Google Gemini API key
+- `SESSION_SECRET` - Session encryption key
 
-1. **User Authentication**: Session-based authentication with PostgreSQL session storage
-2. **Document Upload**: Base64 encoding and storage in PostgreSQL
-3. **Section Parsing**: Document content split into editable sections
-4. **AI Analysis**: Real-time AI feedback using Google Gemini API
-5. **Live Updates**: TanStack Query for optimistic updates and caching
-6. **Auto-save**: Debounced content saving with visual feedback
+### Build Commands
+```bash
+npm run build
+npm start
+```
 
-## External Dependencies
+## Contributing
 
-### Core Dependencies
-- **@google/genai**: AI analysis and feedback generation
-- **@neondatabase/serverless**: PostgreSQL database driver
-- **drizzle-orm**: Type-safe database queries and migrations
-- **@tanstack/react-query**: Server state management and caching
-- **connect-pg-simple**: PostgreSQL session storage
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes
+4. Commit: `git commit -m 'Add some feature'`
+5. Push: `git push origin feature-name`
+6. Submit a pull request
 
-### UI Dependencies
-- **@radix-ui/***: Accessible UI primitives (30+ components)
-- **tailwindcss**: Utility-first CSS framework
-- **class-variance-authority**: Type-safe component variants
-- **lucide-react**: Icon library
+## License
 
-### Development Dependencies
-- **vite**: Build tool and development server
-- **tsx**: TypeScript execution for Node.js
-- **esbuild**: Fast JavaScript bundler for production
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Deployment Strategy
+## Support
 
-### Development
-- **Command**: `npm run dev` - Runs Express server with Vite middleware
-- **Port**: 5000 (mapped to external port 80)
-- **Hot Reload**: Enabled via Vite HMR and server restart
-
-### Production Build
-- **Frontend**: Vite builds React app to `dist/public`
-- **Backend**: ESBuild bundles Node.js server to `dist/index.js`
-- **Database**: Drizzle migrations via `npm run db:push`
-
-### Environment Configuration
-- **Database**: PostgreSQL connection via `DATABASE_URL`
-- **AI Service**: Google Gemini API key via `GEMINI_API_KEY`
-- **Sessions**: PostgreSQL-based session storage
+If you encounter any issues or have questions, please open an issue on GitHub.
